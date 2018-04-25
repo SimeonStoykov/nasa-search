@@ -1,3 +1,3 @@
 export const config = {
-  host: ''  
+  host: 'https://images-api.nasa.gov/'  
 };
