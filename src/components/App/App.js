@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './App.css';
 
+import videoThumbnail from '../../images/video-thumbnail.jpg';
 import loading from '../../images/loading.svg';
 import error from '../../images/error.svg';
 
@@ -55,26 +56,33 @@ class App extends Component {
                 }
                 {
                     !searchResultsLoading && !searchResultsError && searchItems.length > 0 &&
-                    searchItems.map((rec, i) => {
-                        let thumbImgSrc = '';
-                        if (rec.data && rec.data[0] && rec.data[0].media_type) {
-                            let mediaType = rec.data[0].media_type;
-                            if (mediaType === 'image' && rec.links && rec.links[0] && 
-                                rec.links[0].rel === 'preview' &&
-                                rec.links[0].render === 'image' &&
-                                rec.links[0].href) {
-                                thumbImgSrc = rec.links[0].href;
-                            }
+                    <div className='photos'>
+                        {
+                            searchItems.map((rec, i) => {
+                                let thumbImgSrc = '';
+                                let mediaType;
+                                if (rec.data && rec.data[0]) {
+                                    mediaType = rec.data[0].media_type;
+
+                                    if (mediaType === 'image' && rec.links && rec.links[0] &&
+                                        rec.links[0].rel === 'preview' &&
+                                        rec.links[0].render === 'image' &&
+                                        rec.links[0].href) {
+                                        thumbImgSrc = rec.links[0].href;
+                                    } else if (mediaType === 'video') {
+                                        thumbImgSrc = videoThumbnail;
+                                    }
+
+                                    return <img key={i} src={thumbImgSrc} alt='thumb' title={rec.data[0].title} />
+                                }
+
+                                return null;
+                            })
                         }
-                        return (
-                            <div key={i}>
-                                <img src={thumbImgSrc} alt='thumb' width={200} />
-                            </div>
-                        )
-                    })
+                    </div>
                 }
             </div>
-        );
+        )
     }
 }
 

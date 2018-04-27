@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.1.0",
     "immutable": "^3.8.2",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
