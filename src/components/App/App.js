@@ -19,27 +19,32 @@ class App extends Component {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
         this.search = this.search.bind(this);
     }
 
     search() {
-        this.props.fetchSearchResults(`${config.host}search?q=${this.props.searchTerm}`);
+        this.props.searchTerm && this.props.fetchSearchResults(`${config.host}search?q=${this.props.searchTerm}`);
     }
 
     handleChange(e) {
         this.props.setSearchTerm(e.target.value);
     }
 
+    handleKeyPress(target) {
+        if (target.charCode === 13) {
+            this.search();
+        }
+    }
+
     render() {
         let { searchTerm, searchResultsLoading, searchResultsError, searchItems } = this.props;
-
-        console.log(searchItems);
 
         return (
             <div className='app-wrapper'>
                 <h1>Nasa Search</h1>
-                <input type='text' onChange={this.handleChange} value={searchTerm} />
-                <button onClick={this.search}>Search</button>
+                <input type='text' onChange={this.handleChange} value={searchTerm} onKeyPress={this.handleKeyPress} />
+                <button disabled={!searchTerm} onClick={this.search}>Search</button>
                 {
                     searchResultsLoading &&
                     <div className='loading'>
