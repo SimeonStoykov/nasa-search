@@ -26,3 +26,36 @@ export const fetchSearchResults = url => {
             .catch(error => dispatch(fetchSearchResultsError()));
     };
 }
+
+export const assetLoading = () => ({
+    type: 'ASSET_LOADING'
+});
+
+export const getAssetSuccess = response => ({
+    type: 'GET_ASSET_SUCCESS',
+    response
+});
+
+export const getAssetError = () => ({
+    type: 'GET_ASSET_ERROR'
+});
+
+export const getAsset = url => {
+    return dispatch => {
+        dispatch(assetLoading());
+
+        fetch(url)
+            .then(response => response.json())
+            .then(jsonResponse => dispatch(getAssetSuccess(jsonResponse)))
+            .catch(error => dispatch(getAssetError()));
+    };
+}
+
+export const removeSelectedAsset = () => ({
+    type: 'REMOVE_SELECTED_ASSET'
+});
+
+export const setIsChecked = data => ({
+    type: 'SET_IS_CHECKED',
+    data
+});
