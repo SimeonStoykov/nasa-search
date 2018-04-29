@@ -31,28 +31,34 @@ export const assetLoading = () => ({
     type: 'ASSET_LOADING'
 });
 
-export const getAssetSuccess = response => ({
+export const getAssetSuccess = (response, mediaType) => ({
     type: 'GET_ASSET_SUCCESS',
-    response
+    response,
+    mediaType
 });
 
 export const getAssetError = () => ({
     type: 'GET_ASSET_ERROR'
 });
 
-export const getAsset = url => {
+export const getAsset = (url, mediaType) => {
     return dispatch => {
         dispatch(assetLoading());
 
         fetch(url)
             .then(response => response.json())
-            .then(jsonResponse => dispatch(getAssetSuccess(jsonResponse)))
+            .then(jsonResponse => dispatch(getAssetSuccess(jsonResponse, mediaType)))
             .catch(error => dispatch(getAssetError()));
     };
 }
 
 export const removeSelectedAsset = () => ({
     type: 'REMOVE_SELECTED_ASSET'
+});
+
+export const setResultsFor = value => ({
+    type: 'SET_RESULTS_FOR',
+    value
 });
 
 export const setIsChecked = data => ({

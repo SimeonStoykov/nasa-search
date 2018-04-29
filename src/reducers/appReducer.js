@@ -12,7 +12,8 @@ const initialState = fromJS({
     isAudioChecked: false,
     assetLoading: false,
     getAssetError: '',
-    selectedAsset: null
+    selectedAsset: null,
+    resultsFor: ''
 });
 
 export default (state = initialState, action) => {
@@ -24,7 +25,6 @@ export default (state = initialState, action) => {
                 .set('noResultsFound', initialState.get('noResultsFound'));
         }
         case 'FETCH_SEARCH_RESULTS_SUCCESS': {
-            console.log(action.response);
             if (action.response && action.response.collection) {
                 if (action.response.collection.items) {
                     state = state.set('searchItems', fromJS(action.response.collection.items));
@@ -54,12 +54,28 @@ export default (state = initialState, action) => {
                 .set('getAssetError', initialState.get('getAssetError'));
         }
         case 'GET_ASSET_SUCCESS': {
-            if (action.response &&
-                action.response.collection &&
-                action.response.collection.items &&
-                action.response.collection.items[0] &&
-                action.response.collection.items[0].href) {
-                state = state.set('selectedAsset', action.response.collection.items[0].href);
+            if (action.response && action.response.collection && action.response.collection.items) {
+                let selectedAsset = null;
+                if (action.mediaType === 'image') {
+                    selectedAsset =
+                        action.response.collection.items.find(rec => rec.href.endsWith('~medium.jpg')) ||
+                        action.response.collection.items.find(rec => rec.href.endsWith('~large.jpg')) ||
+                        action.response.collection.items.find(rec => rec.href.endsWith('~small.jpg')) ||
+                        action.response.collection.items.find(rec => rec.href.endsWith('~thumb.jpg')) ||
+                        action.response.collection.items.find(rec => rec.href.endsWith('~orig.jpg'));
+                } else if (action.mediaType === 'video') {
+                    selectedAsset =
+                        action.response.collection.items.find(rec => rec.href.endsWith('~medium.mp4')) ||
+                        action.response.collection.items.find(rec => rec.href.endsWith('~large.mp4')) ||
+                        action.response.collection.items.find(rec => rec.href.endsWith('~small.mp4')) ||
+                        action.response.collection.items.find(rec => rec.href.endsWith('~mobile.mp4')) ||
+                        action.response.collection.items.find(rec => rec.href.endsWith('~orig.mp4'));
+                } else if (action.mediaType === 'audio') {
+                    selectedAsset =
+                        action.response.collection.items.find(rec => rec.href.endsWith('~orig.mp3'));
+                }
+
+                selectedAsset && selectedAsset.href && (state = state.set('selectedAsset', selectedAsset.href));
             }
 
             return state
@@ -87,11 +103,13 @@ export default (state = initialState, action) => {
             if (isCheckedField) {
                 return state.set(isCheckedField, action.data.checked);
             }
-            
+
             return state;
         }
         case 'REMOVE_SELECTED_ASSET':
-            return state.set('selectedAsset', initialState.get('selectedAsset'))
+            return state.set('selectedAsset', initialState.get('selectedAsset'));
+        case 'SET_RESULTS_FOR':
+            return state.set('resultsFor', action.value);
         default:
             return state;
     }

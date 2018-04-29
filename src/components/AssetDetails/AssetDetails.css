@@ -1,6 +1,9 @@
 .asset-details-wrapper {
     text-align: center;
     width: 90%;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin: 40px auto !important;
+}
+
+.audio {
+    width: 100%;
 }

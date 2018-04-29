@@ -1,0 +1,14 @@
+.error-img {
+    width: 40px;
+}
+  
+.loading-error-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+  
+.loading-error-text {
+    color: #d92231;
+    font-weight: bold;
+    font-size: 1.2em;
+}

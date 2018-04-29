@@ -9,7 +9,8 @@ import { config } from '../../config';
 import {
     setSearchTerm,
     fetchSearchResults,
-    setIsChecked
+    setIsChecked,
+    setResultsFor
 } from '../../actions';
 
 
@@ -24,10 +25,10 @@ class SearchBar extends Component {
     }
 
     search() {
-        let { searchTerm, fetchSearchResults, isImagesChecked, isVideosChecked, isAudioChecked } = this.props;
+        let { searchTerm, fetchSearchResults, isImagesChecked, isVideosChecked, isAudioChecked, setResultsFor } = this.props;
         if (searchTerm) {
             let searchUrl = `${config.host}search?q=${searchTerm}`;
-            if (isImagesChecked || isVideosChecked || isAudioChecked) {  
+            if (isImagesChecked || isVideosChecked || isAudioChecked) {
                 let mediaTypes = [];
                 isImagesChecked && mediaTypes.push('image');
                 isVideosChecked && mediaTypes.push('video');
@@ -35,6 +36,7 @@ class SearchBar extends Component {
                 searchUrl += '&media_type=' + mediaTypes.join(',');
             }
 
+            setResultsFor(searchTerm);
             fetchSearchResults(searchUrl);
         }
     }
@@ -55,14 +57,16 @@ class SearchBar extends Component {
         let { searchTerm, isImagesChecked, isVideosChecked, isAudioChecked } = this.props;
 
         return (
-            <div>
+            <div className='search-bar-wrapper'>
                 <h1>Nasa Search</h1>
-                <input type='text' onChange={this.handleChange} value={searchTerm} onKeyPress={this.handleKeyPress} />
-                <button disabled={!searchTerm} onClick={this.search}>Search</button>
-                <div>
-                    <Checkbox label='Images' checked={isImagesChecked} toggleCheckboxChange={this.toggleCheckboxChange} />
-                    <Checkbox label='Videos' checked={isVideosChecked} toggleCheckboxChange={this.toggleCheckboxChange} />
-                    <Checkbox label='Audio' checked={isAudioChecked} toggleCheckboxChange={this.toggleCheckboxChange} />
+                <div className='input-wrapper'>
+                    <input type='text' onChange={this.handleChange} value={searchTerm} onKeyPress={this.handleKeyPress} placeholder='Search for...' />
+                    <button disabled={!searchTerm} onClick={this.search}>Search</button>
+                </div>
+                <div className='search-bar-checkboxes'>
+                    <Checkbox label='Images' isChecked={isImagesChecked} toggleCheckboxChange={this.toggleCheckboxChange} />
+                    <Checkbox label='Videos' isChecked={isVideosChecked} toggleCheckboxChange={this.toggleCheckboxChange} />
+                    <Checkbox label='Audio' isChecked={isAudioChecked} toggleCheckboxChange={this.toggleCheckboxChange} />
                 </div>
             </div>
         )
@@ -76,7 +80,8 @@ SearchBar.propTypes = {
     isImagesChecked: PropTypes.bool,
     isVideosChecked: PropTypes.bool,
     isAudioChecked: PropTypes.bool,
-    setIsChecked: PropTypes.func
+    setIsChecked: PropTypes.func,
+    setResultsFor: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -92,7 +97,8 @@ const mapDispatchToProps = dispatch => {
     return {
         setSearchTerm: value => dispatch(setSearchTerm(value)),
         fetchSearchResults: url => dispatch(fetchSearchResults(url)),
-        setIsChecked: data => dispatch(setIsChecked(data))
+        setIsChecked: data => dispatch(setIsChecked(data)),
+        setResultsFor: data => dispatch(setResultsFor(data))
     };
 };
 

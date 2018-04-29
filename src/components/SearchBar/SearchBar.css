@@ -1,0 +1,82 @@
+.search-bar-wrapper {
+    background-image: url('../../images/space.jpg');
+    padding: 20px;
+    color: #fff;
+}
+
+.search-bar-wrapper > h1 {
+    margin-bottom: 25px;
+}
+
+.search-bar-checkboxes {
+    margin-top: 10px;
+}
+
+.input-wrapper {
+    background-color: #1c1f26;
+    color: #fff;
+    border: 2px solid #15418c;
+    height: 40px;
+    width: 40%;
+    margin: 0 auto;
+}
+
+.input-wrapper > input[type='text'] {
+    background-color: #1c1f26;
+    color: #fff;
+    border: 0;
+    width: 75%;
+    height: 100%;
+    padding-left: 5px;
+}
+
+.input-wrapper > button {
+    width: 25%;
+    height: 100%;
+    border: 0;
+    background-color: #15418c;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    height: 37px;
+}
+
+.input-wrapper > button:disabled {
+    background-color: #d3d3d3;
+    color: dimgray;
+    cursor: not-allowed;
+}
+
+::placeholder {
+    color: #fff;
+}
+
+@media (max-width: 1200px) {
+    .input-wrapper{
+        width: 50%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .input-wrapper{
+        width: 60%;
+    }
+}
+
+@media (max-width: 800px) {
+    .input-wrapper{
+        width: 70%;
+    }
+}
+
+@media (max-width: 600px) {
+    .input-wrapper{
+        width: 80%;
+    }
+}
+
+@media (max-width: 400px) {
+    .input-wrapper{
+        width: 90%;
+    }
+}
