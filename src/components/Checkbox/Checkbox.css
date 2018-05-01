@@ -1,12 +1,15 @@
 .checkbox {
     display: inline-block;
     margin-right: 20px;
+    background-color: #15418c;
+    padding: 0 10px;
 }
 
 .checkbox > label {
     cursor: pointer;
     font-size: 1.2rem;
     margin-left: 5px;
+    margin-top: 0.25rem;
 }
 
 .checkbox input {
