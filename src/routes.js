@@ -7,8 +7,8 @@ export default () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path='/' render={routeProps => <App {...routeProps} />} />
-                <Route path='/asset/:id' render={routeProps => <AssetDetails {...routeProps} />} />
+                <Route basename='/' render={routeProps => <App {...routeProps} />} />
+                <Route basename='/asset/:id' render={routeProps => <AssetDetails {...routeProps} />} />
             </Switch>
         </BrowserRouter>
     );
