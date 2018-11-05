@@ -5,10 +5,10 @@ import AssetDetails from './components/AssetDetails/AssetDetails';
 
 export default () => {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Switch>
-                <Route exact path={process.env.PUBLIC_URL + '/'} render={routeProps => <App {...routeProps} />} />
-                <Route path={process.env.PUBLIC_URL + '/asset/:id'} render={routeProps => <AssetDetails {...routeProps} />} />
+                <Route exact path="/" render={routeProps => <App {...routeProps} />} />
+                <Route path="/asset/:id" render={routeProps => <AssetDetails {...routeProps} />} />
             </Switch>
         </BrowserRouter>
     );
